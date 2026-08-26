@@ -1,18 +1,16 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
-  <Package Name="WolfRadio - FM Stereo Modulator" Manufacturer="Freewaves" Version="0.1.1" UpgradeCode="BA09CDF0-F2D9-4BC7-B9D6-AD55AD0BE39A" Scope="perUser">
+  <Package Name="WolfRadio - FM Stereo Modulator (Admin)" Manufacturer="Freewaves" Version="0.1.1" UpgradeCode="D59DB6CE-7F2F-4A19-B602-2D930CD2AA70" Scope="perMachine">
     <MajorUpgrade DowngradeErrorMessage="È già installata una versione più recente." />
     <MediaTemplate EmbedCab="yes" />
-    <StandardDirectory Id="LocalAppDataFolder">
-      <Directory Id="ProgramsFolder" Name="Programs">
-        <Directory Id="INSTALLFOLDER" Name="WolfRadio - FM Stereo Modulator" />
-      </Directory>
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLFOLDER" Name="WolfRadio - FM Stereo Modulator" />
     </StandardDirectory>
     <StandardDirectory Id="ProgramMenuFolder">
       <Directory Id="ApplicationProgramsFolder" Name="WolfRadio - FM Stereo Modulator">
-        <Component Id="MenuShortcut" Guid="E9228545-8DB2-4938-B274-9C0DAD623E7E">
+        <Component Id="MenuShortcut" Guid="7BA90BD0-B35B-48C9-AFC4-74D52D077AB6">
           <Shortcut Id="ApplicationStartMenuShortcut" Name="WolfRadio - FM Stereo Modulator" Target="[INSTALLFOLDER]WolfRadio.exe" WorkingDirectory="INSTALLFOLDER" Icon="WolfRadioInstallerIcon" />
           <RemoveFolder Id="RemoveApplicationProgramsFolder" Directory="ApplicationProgramsFolder" On="uninstall" />
-          <RegistryValue Root="HKCU" Key="Software\Freewaves\WolfRadio" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+          <RegistryValue Root="HKLM" Key="Software\Freewaves\WolfRadio" Name="installed" Type="integer" Value="1" KeyPath="yes" />
         </Component>
       </Directory>
     </StandardDirectory>

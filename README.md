@@ -1,6 +1,6 @@
 # WolfRadio - FM Stereo Modulator
 
-Applicazione Windows 10 x64 self-contained per generare un segnale composito FM stereo (MPX) a 192 kHz.
+Applicazione Windows 10 x64 self-contained per generare un segnale composito FM stereo (MPX) a 192 kHz. Sono disponibili un installer standard per utente e un installer Admin per tutti gli utenti, con richiesta UAC e installazione in Program Files.
 
 Copyright © Freewaves. All rights reserved.  
 [www.freewaves.it](https://www.freewaves.it) · max@freewaves.it

@@ -7,6 +7,7 @@ Write-Host "Pacchetto standalone: $zip"
 $wix=Get-Command wix -ErrorAction SilentlyContinue
 if($wix){
   wix build "$PSScriptRoot\installer\Package.wxs" -d "PublishDir=$PSScriptRoot\artifacts\publish" -d "IconPath=$PSScriptRoot\Assets\WolfRadio.ico" -arch x64 -o "$PSScriptRoot\artifacts\WolfRadio-FM-Stereo-Modulator-Setup.msi"
+  wix build "$PSScriptRoot\installer\Package.Admin.wxs" -d "PublishDir=$PSScriptRoot\artifacts\publish" -d "IconPath=$PSScriptRoot\Assets\WolfRadio.ico" -arch x64 -o "$PSScriptRoot\artifacts\WolfRadio-FM-Stereo-Modulator-Setup-Admin.msi"
   Write-Host "Installer: $PSScriptRoot\artifacts\WolfRadio-FM-Stereo-Modulator-Setup.msi"
 } else {
   Write-Warning "WiX non trovato: ZIP creato, MSI ignorato. Installare WiX Toolset per compilare l'installer."
