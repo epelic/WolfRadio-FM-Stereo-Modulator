@@ -1,27 +1,36 @@
-<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
-  <Package Name="WolfRadio - FM Stereo Modulator" Manufacturer="Freewaves" Version="0.1.2" UpgradeCode="BA09CDF0-F2D9-4BC7-B9D6-AD55AD0BE39A" Scope="perUser">
-    <MajorUpgrade DowngradeErrorMessage="È già installata una versione più recente." />
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+  <Package Name="WolfRadio - FM Stereo Modulator" Manufacturer="Freewaves" Version="0.1.3" UpgradeCode="6DF54E80-B25C-4F69-8838-B34160FF376A" Scope="perMachine">
+    <Upgrade Id="6DF54E80-B25C-4F69-8838-B34160FF376A"><UpgradeVersion Minimum="0.0.0" IncludeMinimum="yes" Maximum="0.1.3" IncludeMaximum="no" Property="OLDORIGINAL" /></Upgrade>
+    <Upgrade Id="BA09CDF0-F2D9-4BC7-B9D6-AD55AD0BE39A"><UpgradeVersion Minimum="0.0.0" IncludeMinimum="yes" Maximum="0.1.3" IncludeMaximum="no" Property="OLDSTANDARD" /></Upgrade>
+    <Upgrade Id="D59DB6CE-7F2F-4A19-B602-2D930CD2AA70"><UpgradeVersion Minimum="0.0.0" IncludeMinimum="yes" Maximum="0.1.3" IncludeMaximum="no" Property="OLDADMIN" /></Upgrade>
     <MediaTemplate EmbedCab="yes" />
-    <StandardDirectory Id="LocalAppDataFolder">
-      <Directory Id="ProgramsFolder" Name="Programs">
-        <Directory Id="INSTALLFOLDER" Name="WolfRadio - FM Stereo Modulator" />
-      </Directory>
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLFOLDER" Name="WolfRadio - FM Stereo Modulator" />
     </StandardDirectory>
     <StandardDirectory Id="ProgramMenuFolder">
       <Directory Id="ApplicationProgramsFolder" Name="WolfRadio - FM Stereo Modulator">
         <Component Id="MenuShortcut" Guid="E9228545-8DB2-4938-B274-9C0DAD623E7E">
           <Shortcut Id="ApplicationStartMenuShortcut" Name="WolfRadio - FM Stereo Modulator" Target="[INSTALLFOLDER]WolfRadio.exe" WorkingDirectory="INSTALLFOLDER" Icon="WolfRadioInstallerIcon" />
           <RemoveFolder Id="RemoveApplicationProgramsFolder" Directory="ApplicationProgramsFolder" On="uninstall" />
-          <RegistryValue Root="HKCU" Key="Software\Freewaves\WolfRadio" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+          <RegistryValue Root="HKLM" Key="Software\Freewaves\WolfRadio" Name="installed" Type="integer" Value="1" KeyPath="yes" />
         </Component>
       </Directory>
+    </StandardDirectory>
+    <StandardDirectory Id="DesktopFolder">
+      <Component Id="DesktopShortcut" Guid="27C59480-1AA2-42DD-B544-9E630D07CB0A">
+        <Shortcut Id="ApplicationDesktopShortcut" Name="WolfRadio - FM Stereo Modulator" Target="[INSTALLFOLDER]WolfRadio.exe" WorkingDirectory="INSTALLFOLDER" Icon="WolfRadioInstallerIcon" />
+        <RegistryValue Root="HKLM" Key="Software\Freewaves\WolfRadio" Name="desktopShortcut" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
     </StandardDirectory>
     <Icon Id="WolfRadioInstallerIcon" SourceFile="$(IconPath)" />
     <Property Id="ARPPRODUCTICON" Value="WolfRadioInstallerIcon" />
     <Feature Id="MainFeature" Title="WolfRadio - FM Stereo Modulator">
       <ComponentGroupRef Id="INSTALLFOLDER_COMPONENTS" />
       <ComponentRef Id="MenuShortcut" />
+      <ComponentRef Id="DesktopShortcut" />
     </Feature>
+    <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
+    <InstallExecuteSequence><RemoveExistingProducts After="InstallValidate" /></InstallExecuteSequence>
   </Package>
   <Fragment>
     <ComponentGroup Id="INSTALLFOLDER_COMPONENTS" Directory="INSTALLFOLDER">
