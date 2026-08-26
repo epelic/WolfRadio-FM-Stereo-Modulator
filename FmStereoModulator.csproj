@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>WolfRadio</AssemblyName>
+    <RootNamespace>FmStereoModulator</RootNamespace>
+    <Product>WolfRadio - FM Stereo Modulator</Product>
+    <AssemblyTitle>WolfRadio - FM Stereo Modulator</AssemblyTitle>
+    <Description>Generatore MPX stereo e RDS per Windows</Description>
+    <Company>Freewaves</Company>
+    <Copyright>Copyright © Freewaves 2026. All rights reserved.</Copyright>
+    <Version>0.1.0</Version>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <FileVersion>0.1.0.0</FileVersion>
+    <ApplicationIcon>Assets\WolfRadio.ico</ApplicationIcon>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <PublishTrimmed>false</PublishTrimmed>
+  </PropertyGroup>
+  <ItemGroup>
+    <Resource Include="Assets\WolfRadioLogo.png" />
+    <Content Include="Native\*.dll"><Link>%(Filename)%(Extension)</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory></Content>
+    <Content Include="THIRD_PARTY_NOTICES.md"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory></Content>
+  </ItemGroup>
+</Project>
