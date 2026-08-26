@@ -1,5 +1,5 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
-  <Package Name="WolfRadio - FM Stereo Modulator (Admin)" Manufacturer="Freewaves" Version="0.1.1" UpgradeCode="D59DB6CE-7F2F-4A19-B602-2D930CD2AA70" Scope="perMachine">
+  <Package Name="WolfRadio - FM Stereo Modulator (Admin)" Manufacturer="Freewaves" Version="0.1.2" UpgradeCode="D59DB6CE-7F2F-4A19-B602-2D930CD2AA70" Scope="perMachine">
     <MajorUpgrade DowngradeErrorMessage="È già installata una versione più recente." />
     <MediaTemplate EmbedCab="yes" />
     <StandardDirectory Id="ProgramFiles64Folder">

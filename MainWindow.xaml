@@ -4,7 +4,7 @@
   <Grid Grid.Row="1"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
    <Border Background="#18212c" CornerRadius="10" Padding="18" Margin="0,0,8,0"><StackPanel>
     <TextBlock Text="Audio" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,14"/>
-    <TextBlock Text="Ingresso"/><ComboBox x:Name="InputBox" Margin="0,5,0,14" SelectedIndex="0"><ComboBoxItem Content="Tono test stereo 1 kHz"/><ComboBoxItem Content="Ingresso predefinito Windows"/></ComboBox>
+    <TextBlock Text="Ingresso"/><ComboBox x:Name="InputBox" Margin="0,5,0,14" SelectedIndex="0"/>
     <TextBlock Text="Uscita"/><ComboBox x:Name="OutputBox" Margin="0,5,0,14" SelectedIndex="0"><ComboBoxItem Content="Scheda audio 192 kHz"/><ComboBoxItem Content="HackRF"/><ComboBoxItem Content="File WAV MPX"/></ComboBox>
     <Grid Margin="0,0,0,10"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions><StackPanel Margin="0,0,5,0"><TextBlock Text="Frequenza TX (MHz)"/><TextBox x:Name="FrequencyBox" Text="91.5" Margin="0,5,0,0"/></StackPanel><StackPanel Grid.Column="1" Margin="5,0,0,0"><TextBlock Text="Guadagno TX (0–47 dB)"/><TextBox x:Name="TxGainBox" Text="0" Margin="0,5,0,0"/></StackPanel></Grid>
     <CheckBox x:Name="RfAmpBox" Content="Amplificatore RF ON (comando hardware invertito)" Margin="0,0,0,10"/>

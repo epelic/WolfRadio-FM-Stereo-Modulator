@@ -9,7 +9,7 @@ namespace FmStereoModulator;
 public partial class MainWindow : Window
 {
     CancellationTokenSource? cts;
-    public MainWindow() { InitializeComponent(); Closing += (_,__) => Stop(); }
+    public MainWindow() { InitializeComponent(); InputBox.Items.Add(new AudioInputDevice(int.MinValue,"Tono test stereo 1 kHz / 1,3 kHz")); foreach(var d in WaveInSource.EnumerateDevices())InputBox.Items.Add(d);InputBox.SelectedIndex=0; Closing += (_,__) => Stop(); }
     async void Start_Click(object sender, RoutedEventArgs e)
     {
         if (!ushort.TryParse(PiBox.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var pi)) { MessageBox.Show("PI non valido: usare quattro cifre esadecimali."); return; }
@@ -17,7 +17,8 @@ public partial class MainWindow : Window
             cts = new(); Toggle(true); StatusText.Text = "Generazione MPX in corso…";
             var us = double.Parse(((ComboBoxItem)PreemphasisBox.SelectedItem).Tag.ToString()!, CultureInfo.InvariantCulture);
             var config = new MpxConfig(pi, PsBox.Text, RtBox.Text, RdsBox.IsChecked == true, us, LevelSlider.Value);
-            IAudioSource source = InputBox.SelectedIndex == 1 ? new WaveInSource() : new TestToneSource();
+            var selected=(AudioInputDevice)InputBox.SelectedItem;
+            IAudioSource source = selected.Id==int.MinValue ? new TestToneSource() : new WaveInSource(selected.Id);
             if(!double.TryParse(FrequencyBox.Text,NumberStyles.Float,CultureInfo.InvariantCulture,out var mhz)||mhz<1||mhz>6000)throw new InvalidOperationException("Frequenza HackRF non valida (1–6000 MHz).");
             if(!uint.TryParse(TxGainBox.Text,out var gain)||gain>47)throw new InvalidOperationException("Guadagno TX non valido (0–47 dB).");
             IAudioSink sink = OutputBox.SelectedIndex switch { 1 => new HackRfSink(mhz,gain,RfAmpBox.IsChecked==true), 2 => new WaveFileSink("wolfradio_mpx_192k.wav"), _ => new WaveOutSink() };
