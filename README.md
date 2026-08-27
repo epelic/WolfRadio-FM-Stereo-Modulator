@@ -8,6 +8,8 @@
 Copyright © Freewaves. All rights reserved.  
 [www.freewaves.it](https://www.freewaves.it) · max@freewaves.it
 
+Free to use under the included EULA. Selling or modifying the software is not permitted.
+
 ---
 
 ## English
