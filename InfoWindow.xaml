@@ -1,4 +1,4 @@
-<Window x:Class="FmStereoModulator.InfoWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Informazioni su WolfRadio" Width="430" Height="520" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Background="#10151c" Foreground="#eef4fb">
+<Window x:Class="FmStereoModulator.InfoWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="About WolfRadio" Width="430" Height="520" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Background="#10151c" Foreground="#eef4fb">
   <Grid Margin="28"><Grid.RowDefinitions><RowDefinition/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
     <StackPanel HorizontalAlignment="Center">
       <Image Source="Assets/WolfRadioLogo.png" Width="245" Height="245" Stretch="Uniform" Margin="0,0,0,18"/>
@@ -9,6 +9,6 @@
       <TextBlock Text="max@freewaves.it" HorizontalAlignment="Center" Margin="0,5,0,0"/>
       <TextBlock Text="All rights reserved" HorizontalAlignment="Center" Margin="0,13,0,0" Foreground="#91a4b7"/>
     </StackPanel>
-    <Button Grid.Row="1" Content="Chiudi" Width="100" Padding="14,8" HorizontalAlignment="Center" IsCancel="True"/>
+    <Button Grid.Row="1" Content="Close" Width="100" Padding="14,8" HorizontalAlignment="Center" IsCancel="True"/>
   </Grid>
 </Window>

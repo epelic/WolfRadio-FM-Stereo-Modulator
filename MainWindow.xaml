@@ -4,32 +4,32 @@
   <Grid Grid.Row="1"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
    <Border Background="#18212c" CornerRadius="10" Padding="18" Margin="0,0,8,0"><StackPanel>
     <TextBlock Text="Audio" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,14"/>
-    <TextBlock Text="Ingresso"/><ComboBox x:Name="InputBox" Margin="0,5,0,7" SelectedIndex="0" SelectionChanged="InputBox_SelectionChanged"/>
-    <Grid Margin="0,0,0,10"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><TextBlock x:Name="AudioFileText" Text="Nessun file selezionato" Foreground="#91a4b7" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/><Button x:Name="BrowseAudioButton" Grid.Column="1" Content="Scegli file…" Padding="12,5" IsEnabled="False" Click="BrowseAudio_Click"/></Grid>
-    <TextBlock Text="Uscita"/><ComboBox x:Name="OutputBox" Margin="0,5,0,14" SelectedIndex="0"><ComboBoxItem Content="Scheda audio 192 kHz"/><ComboBoxItem Content="HackRF"/><ComboBoxItem Content="File WAV MPX"/></ComboBox>
-    <Grid Margin="0,0,0,10"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions><StackPanel Margin="0,0,5,0"><TextBlock Text="Frequenza TX (MHz)"/><TextBox x:Name="FrequencyBox" Text="91.5" Margin="0,5,0,0"/></StackPanel><StackPanel Grid.Column="1" Margin="5,0,0,0"><TextBlock Text="Guadagno TX (0–47 dB)"/><TextBox x:Name="TxGainBox" Text="0" Margin="0,5,0,0"/></StackPanel></Grid>
-    <CheckBox x:Name="RfAmpBox" Content="Amplificatore RF ON" Margin="0,0,0,10"/>
-    <CheckBox x:Name="CarrierOnlyBox" Content="Solo portante (test RF, nessuna modulazione)" Margin="0,0,0,10"/>
-    <TextBlock Text="Livello ingresso"/><Slider x:Name="LevelSlider" Minimum="0" Maximum="1" Value="0.65" TickFrequency="0.05" Margin="0,3,0,10"/>
-    <TextBlock Text="Pre-enfasi"/><ComboBox x:Name="PreemphasisBox" SelectedIndex="0" Margin="0,5,0,10"><ComboBoxItem Content="50 µs (Europa)" Tag="50"/><ComboBoxItem Content="75 µs (Americhe)" Tag="75"/></ComboBox>
-    <TextBlock Text="VU ingresso" Margin="0,3,0,4"/><Grid><Grid.RowDefinitions><RowDefinition/><RowDefinition/></Grid.RowDefinitions><Grid.ColumnDefinitions><ColumnDefinition Width="20"/><ColumnDefinition/></Grid.ColumnDefinitions><TextBlock Text="L"/><ProgressBar x:Name="VuLeft" Grid.Column="1" Height="10" Minimum="0" Maximum="1"/><TextBlock Text="R" Grid.Row="1" Margin="0,5,0,0"/><ProgressBar x:Name="VuRight" Grid.Row="1" Grid.Column="1" Height="10" Minimum="0" Maximum="1" Margin="0,5,0,0"/></Grid>
-    <TextBlock Text="Formato fisso: PCM 16 bit, 192000 Hz, mono MPX" Foreground="#91a4b7" TextWrapping="Wrap" Margin="0,18,0,0"/>
+    <TextBlock Text="Input"/><ComboBox x:Name="InputBox" Margin="0,5,0,7" SelectedIndex="0" SelectionChanged="InputBox_SelectionChanged"/>
+    <Grid Margin="0,0,0,10"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><TextBlock x:Name="AudioFileText" Text="No file selected" Foreground="#91a4b7" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/><Button x:Name="BrowseAudioButton" Grid.Column="1" Content="Browse…" Padding="12,5" IsEnabled="False" Click="BrowseAudio_Click"/></Grid>
+    <TextBlock Text="Output"/><ComboBox x:Name="OutputBox" Margin="0,5,0,14" SelectedIndex="0"><ComboBoxItem Content="192 kHz audio device"/><ComboBoxItem Content="HackRF"/><ComboBoxItem Content="MPX WAV file"/></ComboBox>
+    <Grid Margin="0,0,0,10"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions><StackPanel Margin="0,0,5,0"><TextBlock Text="TX frequency (MHz)"/><TextBox x:Name="FrequencyBox" Text="91.5" Margin="0,5,0,0"/></StackPanel><StackPanel Grid.Column="1" Margin="5,0,0,0"><TextBlock Text="TX gain (0–47 dB)"/><TextBox x:Name="TxGainBox" Text="0" Margin="0,5,0,0"/></StackPanel></Grid>
+    <CheckBox x:Name="RfAmpBox" Content="RF amplifier ON" Margin="0,0,0,10"/>
+    <CheckBox x:Name="CarrierOnlyBox" Content="Carrier only (RF test, no modulation)" Margin="0,0,0,10"/>
+    <TextBlock Text="Input level"/><Slider x:Name="LevelSlider" Minimum="0" Maximum="1" Value="0.65" TickFrequency="0.05" Margin="0,3,0,10"/>
+    <TextBlock Text="Pre-emphasis"/><ComboBox x:Name="PreemphasisBox" SelectedIndex="0" Margin="0,5,0,10"><ComboBoxItem Content="50 µs (Europe)" Tag="50"/><ComboBoxItem Content="75 µs (Americas)" Tag="75"/></ComboBox>
+    <TextBlock Text="Input VU" Margin="0,3,0,4"/><Grid><Grid.RowDefinitions><RowDefinition/><RowDefinition/></Grid.RowDefinitions><Grid.ColumnDefinitions><ColumnDefinition Width="20"/><ColumnDefinition/></Grid.ColumnDefinitions><TextBlock Text="L"/><ProgressBar x:Name="VuLeft" Grid.Column="1" Height="10" Minimum="0" Maximum="1"/><TextBlock Text="R" Grid.Row="1" Margin="0,5,0,0"/><ProgressBar x:Name="VuRight" Grid.Row="1" Grid.Column="1" Height="10" Minimum="0" Maximum="1" Margin="0,5,0,0"/></Grid>
+    <TextBlock Text="Fixed format: 16-bit PCM, 192000 Hz, mono MPX" Foreground="#91a4b7" TextWrapping="Wrap" Margin="0,18,0,0"/>
    </StackPanel></Border>
    <Border Grid.Column="1" Background="#18212c" CornerRadius="10" Padding="18" Margin="8,0,0,0"><StackPanel>
     <TextBlock Text="RDS" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,14"/>
-    <CheckBox x:Name="RdsBox" Content="Abilita RDS 57 kHz" IsChecked="True" Margin="0,0,0,12"/>
-    <TextBlock Text="PI (esadecimale)"/><TextBox x:Name="PiBox" Text="1234" MaxLength="4" Margin="0,5,0,12"/>
-    <TextBlock Text="PS (8 caratteri)"/><TextBox x:Name="PsBox" Text="FM TEST" MaxLength="8" Margin="0,5,0,12"/>
-    <TextBlock Text="RadioText (64 caratteri)"/><TextBox x:Name="RtBox" Text="FM Stereo Modulator - test RDS" MaxLength="64" Height="60" TextWrapping="Wrap" AcceptsReturn="True" Margin="0,5,0,12"/>
-    <TextBlock Text="Il PI, PS e RadioText vengono aggiornati al prossimo avvio." Foreground="#91a4b7" TextWrapping="Wrap"/>
+    <CheckBox x:Name="RdsBox" Content="Enable 57 kHz RDS" IsChecked="True" Margin="0,0,0,12"/>
+    <TextBlock Text="PI (hexadecimal)"/><TextBox x:Name="PiBox" Text="1234" MaxLength="4" Margin="0,5,0,12"/>
+    <TextBlock Text="PS (8 characters)"/><TextBox x:Name="PsBox" Text="FM TEST" MaxLength="8" Margin="0,5,0,12"/>
+    <TextBlock Text="RadioText (64 characters)"/><TextBox x:Name="RtBox" Text="WolfRadio FM Stereo Modulator" MaxLength="64" Height="60" TextWrapping="Wrap" AcceptsReturn="True" Margin="0,5,0,12"/>
+    <TextBlock Text="PI, PS and RadioText are applied when modulation starts." Foreground="#91a4b7" TextWrapping="Wrap"/>
    </StackPanel></Border>
   </Grid>
-  <Border Grid.Row="2" Background="#18212c" CornerRadius="10" Padding="14" Margin="0,16,0,0"><Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition/></Grid.RowDefinitions><DockPanel Margin="0,0,0,6"><TextBlock Text="Spettro MPX in tempo reale" FontWeight="SemiBold"/><TextBlock Text="0 — 96 kHz" Foreground="#91a4b7" HorizontalAlignment="Right"/></DockPanel><Canvas x:Name="SpectrumCanvas" Grid.Row="1" Background="#0b1118" ClipToBounds="True"><Polyline x:Name="SpectrumLine" Stroke="#22b8ff" StrokeThickness="2"/></Canvas></Grid></Border>
+  <Border Grid.Row="2" Background="#18212c" CornerRadius="10" Padding="14" Margin="0,16,0,0"><Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition/></Grid.RowDefinitions><DockPanel Margin="0,0,0,6"><TextBlock Text="Real-time MPX spectrum" FontWeight="SemiBold"/><TextBlock Text="0 — 96 kHz" Foreground="#91a4b7" HorizontalAlignment="Right"/></DockPanel><Canvas x:Name="SpectrumCanvas" Grid.Row="1" Background="#0b1118" ClipToBounds="True"><Polyline x:Name="SpectrumLine" Stroke="#22b8ff" StrokeThickness="2"/></Canvas></Grid></Border>
   <Grid Grid.Row="3" Margin="0,20,0,0"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-   <TextBlock x:Name="StatusText" Text="Pronto" VerticalAlignment="Center" Foreground="#9fb3c8"/>
-   <Button x:Name="StopButton" Grid.Column="1" Content="Ferma" IsEnabled="False" Padding="22,10" Margin="0,0,10,0" Click="Stop_Click"/>
+   <TextBlock x:Name="StatusText" Text="Ready" VerticalAlignment="Center" Foreground="#9fb3c8"/>
+   <Button x:Name="StopButton" Grid.Column="1" Content="Stop" IsEnabled="False" Padding="22,10" Margin="0,0,10,0" Click="Stop_Click"/>
    <Button Grid.Column="2" Content="INFO" Padding="18,10" Margin="0,0,10,0" Click="Info_Click"/>
-   <Button x:Name="StartButton" Grid.Column="3" Content="Avvia modulatore" Padding="24,10" Background="#29a36a" Foreground="White" Click="Start_Click"/>
+   <Button x:Name="StartButton" Grid.Column="3" Content="Start modulator" Padding="24,10" Background="#29a36a" Foreground="White" Click="Start_Click"/>
   </Grid>
  </Grid>
 </Window>
