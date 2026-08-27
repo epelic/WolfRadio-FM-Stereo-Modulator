@@ -24,7 +24,7 @@ public partial class MainWindow : Window
             if(!uint.TryParse(TxGainBox.Text,out var gain)||gain>47)throw new InvalidOperationException("Invalid TX gain (0–47 dB).");
             IAudioSink sink = OutputBox.SelectedIndex switch { 1 => new HackRfSink(mhz,gain,RfAmpBox.IsChecked==true,CarrierOnlyBox.IsChecked==true), 2 => new WaveFileSink("wolfradio_mpx_192k.wav"), _ => new WaveOutSink() };
             await Task.Run(() => new MpxEngine(config, source, sink, UpdateTelemetry).Run(cts.Token));
-        } catch (OperationCanceledException) { } catch (Exception ex) { MessageBox.Show(ex.Message, "Errore"); }
+        } catch (OperationCanceledException) { } catch (Exception ex) { string dir=System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"WolfRadio");System.IO.Directory.CreateDirectory(dir);string log=System.IO.Path.Combine(dir,"WolfRadio-error.log");System.IO.File.WriteAllText(log,$"{DateTime.Now:O}\r\n{ex}");MessageBox.Show($"{ex.Message}\n\nDiagnostic details were saved to:\n{log}", "Error"); }
         finally { Toggle(false); StatusText.Text = "Stopped"; cts?.Dispose(); cts = null; }
     }
     void Stop_Click(object sender, RoutedEventArgs e) => Stop();
