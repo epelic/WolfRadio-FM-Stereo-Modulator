@@ -1,4 +1,8 @@
+<img width="512" height="512" alt="wolfradio" src="https://github.com/user-attachments/assets/28263df8-22fd-441e-b549-e166867f471b" />
+
+
 # WolfRadio - FM Stereo Modulator
+
 
 Self-contained Windows 10 x64 application for generating a 192 kHz FM stereo composite (MPX) signal. A single administrator installer requests UAC elevation, installs to Program Files, creates a desktop shortcut, and automatically replaces earlier versions.
 
