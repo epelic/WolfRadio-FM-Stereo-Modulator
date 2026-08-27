@@ -24,6 +24,7 @@
     <TextBlock Text="PI (hexadecimal)"/><TextBox x:Name="PiBox" Text="1234" MaxLength="4" Margin="0,5,0,12"/>
     <TextBlock Text="PS (8 characters)"/><TextBox x:Name="PsBox" Text="FM TEST" MaxLength="8" Margin="0,5,0,12"/>
     <TextBlock Text="RadioText (64 characters)"/><TextBox x:Name="RtBox" Text="WolfRadio FM Stereo Modulator" MaxLength="64" Height="60" TextWrapping="Wrap" AcceptsReturn="True" Margin="0,5,0,12"/>
+    <CheckBox x:Name="TrackTitleRdsBox" Content="Use current track title as RadioText" IsChecked="True" Margin="0,0,0,12" ToolTip="Uses file tags or stream metadata. The manual RadioText is used when no title is available."/>
     <TextBlock Text="PI, PS and RadioText are applied when modulation starts." Foreground="#91a4b7" TextWrapping="Wrap"/>
    </StackPanel></Border>
   </Grid>

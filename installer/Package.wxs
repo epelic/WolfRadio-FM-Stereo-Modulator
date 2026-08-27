@@ -1,8 +1,8 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
-  <Package Name="WolfRadio - FM Stereo Modulator" Manufacturer="Freewaves" Version="0.1.8" UpgradeCode="6DF54E80-B25C-4F69-8838-B34160FF376A" Scope="perMachine">
-    <Upgrade Id="6DF54E80-B25C-4F69-8838-B34160FF376A"><UpgradeVersion Minimum="0.0.0" IncludeMinimum="yes" Maximum="0.1.8" IncludeMaximum="no" Property="OLDORIGINAL" /></Upgrade>
-    <Upgrade Id="BA09CDF0-F2D9-4BC7-B9D6-AD55AD0BE39A"><UpgradeVersion Minimum="0.0.0" IncludeMinimum="yes" Maximum="0.1.8" IncludeMaximum="no" Property="OLDSTANDARD" /></Upgrade>
-    <Upgrade Id="D59DB6CE-7F2F-4A19-B602-2D930CD2AA70"><UpgradeVersion Minimum="0.0.0" IncludeMinimum="yes" Maximum="0.1.8" IncludeMaximum="no" Property="OLDADMIN" /></Upgrade>
+  <Package Name="WolfRadio - FM Stereo Modulator" Manufacturer="Freewaves" Version="0.1.9" UpgradeCode="6DF54E80-B25C-4F69-8838-B34160FF376A" Scope="perMachine">
+    <Upgrade Id="6DF54E80-B25C-4F69-8838-B34160FF376A"><UpgradeVersion Minimum="0.0.0" IncludeMinimum="yes" Maximum="0.1.9" IncludeMaximum="no" Property="OLDORIGINAL" /></Upgrade>
+    <Upgrade Id="BA09CDF0-F2D9-4BC7-B9D6-AD55AD0BE39A"><UpgradeVersion Minimum="0.0.0" IncludeMinimum="yes" Maximum="0.1.9" IncludeMaximum="no" Property="OLDSTANDARD" /></Upgrade>
+    <Upgrade Id="D59DB6CE-7F2F-4A19-B602-2D930CD2AA70"><UpgradeVersion Minimum="0.0.0" IncludeMinimum="yes" Maximum="0.1.9" IncludeMaximum="no" Property="OLDADMIN" /></Upgrade>
     <MediaTemplate EmbedCab="yes" />
     <StandardDirectory Id="ProgramFiles64Folder">
       <Directory Id="INSTALLFOLDER" Name="WolfRadio - FM Stereo Modulator" />

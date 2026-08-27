@@ -17,7 +17,7 @@ public partial class MainWindow : Window
         try {
             cts = new(); Toggle(true); StatusText.Text = "Generating MPX…";
             var us = double.Parse(((ComboBoxItem)PreemphasisBox.SelectedItem).Tag.ToString()!, CultureInfo.InvariantCulture);
-            var config = new MpxConfig(pi, PsBox.Text, RtBox.Text, RdsBox.IsChecked == true, TransmissionModeBox.SelectedIndex==0, CarrierOnlyBox.IsChecked==true, CompressorBox.IsChecked==true, us, LevelSlider.Value);
+            var config = new MpxConfig(pi, PsBox.Text, RtBox.Text, RdsBox.IsChecked == true, TransmissionModeBox.SelectedIndex==0, CarrierOnlyBox.IsChecked==true, CompressorBox.IsChecked==true, TrackTitleRdsBox.IsChecked==true, us, LevelSlider.Value);
             var selected=(AudioInputDevice)InputBox.SelectedItem;
             IAudioSource source = selected.Id switch { TestToneId=>new TestToneSource(),FileAudioId when audioFiles.Length>0=>new FileAudioSource(audioFiles),FileAudioId=>throw new InvalidOperationException("Select one or more audio files first."),StreamAudioId when Uri.TryCreate(StreamUrlBox.Text,UriKind.Absolute,out var streamUri) && streamUri.Scheme is "http" or "https"=>new FileAudioSource(StreamUrlBox.Text),StreamAudioId=>throw new InvalidOperationException("Enter a valid HTTP or HTTPS stream URL."),_=>new WaveInSource(selected.Id) };
             if(!double.TryParse(FrequencyBox.Text,NumberStyles.Float,CultureInfo.InvariantCulture,out var mhz)||mhz<1||mhz>6000)throw new InvalidOperationException("Invalid HackRF frequency (1–6000 MHz).");

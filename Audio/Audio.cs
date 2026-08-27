@@ -1,12 +1,14 @@
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Collections.Concurrent;
+using System.Net.Http;
 using FmStereoModulator.Dsp;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using NAudio.Flac;
 namespace FmStereoModulator.Audio;
 public interface IAudioSource:IDisposable { void Start(int rate); void Read(float[] stereo,int frames,CancellationToken ct); }
+public interface ITrackMetadataSource { string? CurrentTitle { get; } }
 public interface IAudioSink:IDisposable { void Start(int rate); void Write(short[] mono,CancellationToken ct); }
 public sealed class HackRfSink(double frequencyMhz, uint txGain, bool amplifierOn, bool carrierOnly=false):IAudioSink
 {
@@ -30,16 +32,26 @@ public sealed class HackRfSink(double frequencyMhz, uint txGain, bool amplifierO
     [DllImport("hackrf",CallingConvention=CallingConvention.Cdecl)]static extern int hackrf_init();[DllImport("hackrf",CallingConvention=CallingConvention.Cdecl)]static extern int hackrf_exit();[DllImport("hackrf",CallingConvention=CallingConvention.Cdecl)]static extern int hackrf_open(out IntPtr d);[DllImport("hackrf",CallingConvention=CallingConvention.Cdecl)]static extern int hackrf_close(IntPtr d);[DllImport("hackrf",CallingConvention=CallingConvention.Cdecl)]static extern int hackrf_set_freq(IntPtr d,ulong hz);[DllImport("hackrf",CallingConvention=CallingConvention.Cdecl)]static extern int hackrf_set_sample_rate_manual(IntPtr d,uint hz,uint divider);[DllImport("hackrf",CallingConvention=CallingConvention.Cdecl)]static extern int hackrf_set_baseband_filter_bandwidth(IntPtr d,uint hz);[DllImport("hackrf",CallingConvention=CallingConvention.Cdecl)]static extern int hackrf_set_txvga_gain(IntPtr d,uint gain);[DllImport("hackrf",CallingConvention=CallingConvention.Cdecl)]static extern int hackrf_set_amp_enable(IntPtr d,byte enable);[DllImport("hackrf",CallingConvention=CallingConvention.Cdecl)]static extern int hackrf_start_tx(IntPtr d,TxCallback cb,IntPtr ctx);[DllImport("hackrf",CallingConvention=CallingConvention.Cdecl)]static extern int hackrf_stop_tx(IntPtr d);
 }
 public sealed class TestToneSource:IAudioSource { int rate; long n; public void Start(int r)=>rate=r; public void Read(float[] b,int frames,CancellationToken ct){for(int i=0;i<frames;i++){b[2*i]=(float)(.55*Math.Sin(2*Math.PI*1000*n/rate));b[2*i+1]=(float)(.35*Math.Sin(2*Math.PI*1300*n/rate));n++;}} public void Dispose(){} }
-public sealed class FileAudioSource:IAudioSource
+public sealed class FileAudioSource:IAudioSource,ITrackMetadataSource
 {
-    readonly string[] paths;WaveStream? reader;ISampleProvider? samples;int rate,index;
+    readonly string[] paths;WaveStream? reader;ISampleProvider? samples;IcyMetadataMonitor? metadataMonitor;int rate,index;string? currentTitle;
+    public string? CurrentTitle=>metadataMonitor?.CurrentTitle??currentTitle;
     public FileAudioSource(string path):this([path]){}
     public FileAudioSource(IEnumerable<string> paths){this.paths=paths.ToArray();if(this.paths.Length==0)throw new ArgumentException("The playlist is empty.",nameof(paths));}
     public void Start(int outputRate){rate=outputRate;Open();}
-    void Open(){reader?.Dispose();reader=CreateReader(paths[index]);ISampleProvider p=reader.ToSampleProvider();if(p.WaveFormat.Channels==1)p=new MonoToStereoSampleProvider(p);else if(p.WaveFormat.Channels>2){var mux=new MultiplexingSampleProvider([p],2);mux.ConnectInputToOutput(0,0);mux.ConnectInputToOutput(1,1);p=mux;}samples=p.WaveFormat.SampleRate==rate?p:new WdlResamplingSampleProvider(p,rate);}
+    void Open(){reader?.Dispose();metadataMonitor?.Dispose();metadataMonitor=null;string path=paths[index];if(Uri.TryCreate(path,UriKind.Absolute,out var uri)&&uri.Scheme is "http" or "https"){currentTitle=null;metadataMonitor=new IcyMetadataMonitor(path);}else currentTitle=ReadFileTitle(path);reader=CreateReader(path);ISampleProvider p=reader.ToSampleProvider();if(p.WaveFormat.Channels==1)p=new MonoToStereoSampleProvider(p);else if(p.WaveFormat.Channels>2){var mux=new MultiplexingSampleProvider([p],2);mux.ConnectInputToOutput(0,0);mux.ConnectInputToOutput(1,1);p=mux;}samples=p.WaveFormat.SampleRate==rate?p:new WdlResamplingSampleProvider(p,rate);}
+    static string ReadFileTitle(string path){try{using var tag=TagLib.File.Create(path);string title=tag.Tag.Title??"";string artist=tag.Tag.FirstPerformer??"";if(title.Length>0)return artist.Length>0?$"{artist} - {title}":title;}catch{}return Path.GetFileNameWithoutExtension(path);}
     static WaveStream CreateReader(string file){if(Uri.TryCreate(file,UriKind.Absolute,out var uri)&&uri.Scheme is "http" or "https")return new MediaFoundationReader(file);string ext=Path.GetExtension(file).ToLowerInvariant();return ext switch{".flac"=>new FlacReader(file),".wav" or ".mp3" or ".aif" or ".aiff"=>new AudioFileReader(file),_=>new MediaFoundationReader(file)};}
     public void Read(float[] stereo,int frames,CancellationToken ct){int needed=frames*2,done=0;while(done<needed){ct.ThrowIfCancellationRequested();int n=samples!.Read(stereo,done,needed-done);if(n==0){index=(index+1)%paths.Length;Open();continue;}done+=n;}}
-    public void Dispose(){reader?.Dispose();reader=null;samples=null;}
+    public void Dispose(){metadataMonitor?.Dispose();metadataMonitor=null;reader?.Dispose();reader=null;samples=null;}
+}
+sealed class IcyMetadataMonitor:IDisposable
+{
+    readonly CancellationTokenSource stop=new();readonly HttpClient client=new();string? currentTitle;
+    public string? CurrentTitle=>Volatile.Read(ref currentTitle);
+    public IcyMetadataMonitor(string url){_=Task.Run(()=>Monitor(url,stop.Token));}
+    async Task Monitor(string url,CancellationToken ct){try{using var request=new HttpRequestMessage(HttpMethod.Get,url);request.Headers.TryAddWithoutValidation("Icy-MetaData","1");using var response=await client.SendAsync(request,HttpCompletionOption.ResponseHeadersRead,ct);response.EnsureSuccessStatusCode();if(!response.Headers.TryGetValues("icy-metaint",out var values)||!int.TryParse(values.FirstOrDefault(),out int interval)||interval<=0)return;using var stream=await response.Content.ReadAsStreamAsync(ct);var audio=new byte[8192];while(!ct.IsCancellationRequested){int left=interval;while(left>0){int n=await stream.ReadAsync(audio.AsMemory(0,Math.Min(left,audio.Length)),ct);if(n==0)return;left-=n;}int blocks=stream.ReadByte();if(blocks<0)return;int length=blocks*16;if(length==0)continue;var metadata=new byte[length];int done=0;while(done<length){int n=await stream.ReadAsync(metadata.AsMemory(done,length-done),ct);if(n==0)return;done+=n;}string text=System.Text.Encoding.Latin1.GetString(metadata).TrimEnd('\0');const string key="StreamTitle='";int start=text.IndexOf(key,StringComparison.OrdinalIgnoreCase);if(start>=0){start+=key.Length;int end=text.IndexOf("';",start,StringComparison.Ordinal);if(end<0)end=text.IndexOf('\'',start);if(end>start)Volatile.Write(ref currentTitle,text[start..end].Trim());}}}catch(OperationCanceledException){}catch{} }
+    public void Dispose(){stop.Cancel();client.Dispose();stop.Dispose();}
 }
 public sealed class WaveFileSink(string path):IAudioSink { FileStream? f; int bytes; public void Start(int rate){f=File.Create(path);f.Write(new byte[44]);} public void Write(short[] b,CancellationToken ct){var x=MemoryMarshal.AsBytes(b.AsSpan());f!.Write(x);bytes+=x.Length;} public void Dispose(){if(f==null)return;f.Position=0;using(var w=new BinaryWriter(f,System.Text.Encoding.ASCII,true)){w.Write("RIFF"u8);w.Write(36+bytes);w.Write("WAVEfmt "u8);w.Write(16);w.Write((short)1);w.Write((short)1);w.Write(192000);w.Write(384000);w.Write((short)2);w.Write((short)16);w.Write("data"u8);w.Write(bytes);}f.Dispose();f=null;} }
 
