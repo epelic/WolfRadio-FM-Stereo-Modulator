@@ -1,4 +1,4 @@
-<img width="512" height="512" alt="wolfradio" src="https://github.com/user-attachments/assets/28263df8-22fd-441e-b549-e166867f471b" />
+<img width="512" height="512" position="Center" alt="wolfradio" src="https://github.com/user-attachments/assets/28263df8-22fd-441e-b549-e166867f471b" />
 
 
 # WolfRadio - FM Stereo Modulator
