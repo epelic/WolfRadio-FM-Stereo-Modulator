@@ -9,3 +9,5 @@ WolfRadio distributes the native libraries required to communicate with HackRF h
 The bundled Windows builds are the libhackrf and libusb binaries distributed with SDRangel 7.27.2: https://github.com/f4exb/sdrangel
 
 Source code and license texts are available at the linked upstream repositories. No endorsement by those projects is implied.
+
+- `NAudio.Flac` — FLAC decoder maintained by VPKSoft, Unlicense: https://github.com/VPKSoft/NAudio.Flac

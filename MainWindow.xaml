@@ -6,14 +6,17 @@
     <TextBlock Text="Audio" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,14"/>
     <TextBlock Text="Input"/><ComboBox x:Name="InputBox" Margin="0,5,0,7" SelectedIndex="0" SelectionChanged="InputBox_SelectionChanged"/>
     <Grid Margin="0,0,0,10"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><TextBlock x:Name="AudioFileText" Text="No file selected" Foreground="#91a4b7" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/><Button x:Name="BrowseAudioButton" Grid.Column="1" Content="Browse…" Padding="12,5" IsEnabled="False" Click="BrowseAudio_Click"/></Grid>
+    <TextBox x:Name="StreamUrlBox" Text="http://" Margin="0,0,0,10" Visibility="Collapsed" ToolTip="HTTP/HTTPS audio stream URL"/>
     <TextBlock Text="Output"/><ComboBox x:Name="OutputBox" Margin="0,5,0,14" SelectedIndex="0"><ComboBoxItem Content="192 kHz audio device"/><ComboBoxItem Content="HackRF"/><ComboBoxItem Content="MPX WAV file"/></ComboBox>
     <Grid Margin="0,0,0,10"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions><StackPanel Margin="0,0,5,0"><TextBlock Text="TX frequency (MHz)"/><TextBox x:Name="FrequencyBox" Text="91.5" Margin="0,5,0,0"/></StackPanel><StackPanel Grid.Column="1" Margin="5,0,0,0"><TextBlock Text="TX gain (0–47 dB)"/><TextBox x:Name="TxGainBox" Text="0" Margin="0,5,0,0"/></StackPanel></Grid>
     <CheckBox x:Name="RfAmpBox" Content="RF amplifier ON" Margin="0,0,0,10"/>
     <CheckBox x:Name="CarrierOnlyBox" Content="Carrier only (RF test, no modulation)" Margin="0,0,0,10"/>
-    <TextBlock Text="Input level"/><Slider x:Name="LevelSlider" Minimum="0" Maximum="1" Value="0.65" TickFrequency="0.05" Margin="0,3,0,10"/>
+    <DockPanel><TextBlock Text="Input gain"/><TextBlock Text="{Binding ElementName=LevelSlider, Path=Value, StringFormat={}{0:P0}}" Foreground="#9fd4ff" HorizontalAlignment="Right"/></DockPanel><Slider x:Name="LevelSlider" Minimum="0" Maximum="2.5" Value="0.65" TickFrequency="0.05" IsSnapToTickEnabled="True" Margin="0,3,0,10" ToolTip="Raise this for quiet audio files; reduce it if the signal clips."/>
+    <CheckBox x:Name="CompressorBox" Content="Soft compressor" Margin="0,0,0,10" ToolTip="Gently evens out quiet and loud passages before pre-emphasis."/>
     <TextBlock Text="Pre-emphasis"/><ComboBox x:Name="PreemphasisBox" SelectedIndex="0" Margin="0,5,0,10"><ComboBoxItem Content="50 µs (Europe)" Tag="50"/><ComboBoxItem Content="75 µs (Americas)" Tag="75"/></ComboBox>
+    <TextBlock Text="Transmission mode"/><ComboBox x:Name="TransmissionModeBox" SelectedIndex="0" Margin="0,5,0,10"><ComboBoxItem Content="Stereo"/><ComboBoxItem Content="Mono"/></ComboBox>
     <TextBlock Text="Input VU" Margin="0,3,0,4"/><Grid><Grid.RowDefinitions><RowDefinition/><RowDefinition/></Grid.RowDefinitions><Grid.ColumnDefinitions><ColumnDefinition Width="20"/><ColumnDefinition/></Grid.ColumnDefinitions><TextBlock Text="L"/><ProgressBar x:Name="VuLeft" Grid.Column="1" Height="10" Minimum="0" Maximum="1"/><TextBlock Text="R" Grid.Row="1" Margin="0,5,0,0"/><ProgressBar x:Name="VuRight" Grid.Row="1" Grid.Column="1" Height="10" Minimum="0" Maximum="1" Margin="0,5,0,0"/></Grid>
-    <TextBlock Text="Fixed format: 16-bit PCM, 192000 Hz, mono MPX" Foreground="#91a4b7" TextWrapping="Wrap" Margin="0,18,0,0"/>
+    <TextBlock Text="MPX output: 192 kHz, 16-bit" Foreground="#91a4b7" TextWrapping="Wrap" Margin="0,18,0,0"/>
    </StackPanel></Border>
    <Border Grid.Column="1" Background="#18212c" CornerRadius="10" Padding="18" Margin="8,0,0,0"><StackPanel>
     <TextBlock Text="RDS" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,14"/>

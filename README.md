@@ -9,8 +9,11 @@ Copyright © Freewaves. All rights reserved.
 
 - stereo test tone, selectable Windows audio input, or audio-file input;
 - enumeration and selection of all Windows capture devices, with internal conversion to 192 kHz;
-- continuous MP3, WAV, AAC/M4A, WMA, and AIFF playback with automatic decoding and resampling;
+- looping playlists of one or more MP3, WAV, FLAC, AAC/M4A, WMA, or AIFF files, with automatic decoding and resampling;
+- HTTP/HTTPS network-stream input through the Windows Media Foundation decoder;
+- optional soft compressor and adjustable input gain from 0% to 250%;
 - stereo MPX generation: L+R, 19 kHz pilot, and 38 kHz DSB-SC L-R;
+- selectable stereo or mono transmission while keeping RDS independently configurable;
 - GUI-configurable RDS PI, PS, and RadioText;
 - physical 57 kHz RDS generation with differential encoding, Manchester coding, and 0A/2A groups;
 - 192 kHz, 16-bit PCM audio-device output through native Windows APIs;
